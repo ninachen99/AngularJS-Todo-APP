@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="TodoApp">
+
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<link rel="stylesheet" href="main.css">
+<script src="app.js"></script>
+<meta charset="utf-8"> 
+<title>JS Bin</title>  
+</head>
+  
+  <body ng-controller="TodoCtrl">
+    <h1>{{name | uppercase}}'s Awesome Todo App  <br>{{date | date: 'yyyy-MM-dd'}}</h1>
+    <h3>{{ (todos | filter: { complete: true }).length }} of {{todos.length}} todos completed!</h3>
+    
+    <div>
+      <p><input class="search-todo" type="text" placeholder="search" ng-model="query"/>{{query}}</p>
+      <form ng-submit="onSubmit(todo)">
+        <input class="text-area" type="text" ng-model="todo.title"> <br>
+        <input class="add-btn" type="submit" value="Add">
+      </form>
+      
+      </br>
+      
+      <p ng-if="(todos | filter: query ).length == 0 "> What's the matter with you, it's nothing here. :) </p>  
+    
+    <table>
+        <tr ng-class="{complete: todo.complete}" ng-repeat="todo in (todos | filter: query )">
+            <td><input type="checkbox" ng-model="todo.complete" ng-checked="todo.complete"></td>
+            <td class="todo-list" ng-hide="editorEnabled">{{todo.title}}</td>
+            <td><a href="#" ng-click="onRemove(todo)">Remove</a></td>
+            <td><a href="#" ng-click="enableEditor(todo)">Edit</a>
+            </td>
+            <div ng-show="editorEnabled">
+              <input ng-model="editableTitle" ng-show="editorEnabled">
+              <a href="#" ng-click="save(todo)">Save</a>
+              or
+              <a href="#" ng-click="disableEditor(todo)">cancel</a>
+            </div>
+        </tr>
+     </table>
+    </div>
+  
+  </body>
+</html>
